@@ -1,12 +1,12 @@
-/* Yayasan Al Istiqomah Kuningan PWA service worker */
-const CACHE_VERSION = 'al-istiqomah-v1';
+/* Kuningan Al Muqoddasah PWA service worker */
+const CACHE_VERSION = 'al-muqoddasah-v1';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_URLS = [
   OFFLINE_URL,
   '/manifest.webmanifest',
-  '/istiqomah.png',
+  '/Muqoddasah.png',
 ];
 
 self.addEventListener('install', (event) => {

@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Cek & Bayar Tagihan - Yayasan Al Istiqomah Kuningan",
-  "short_name": "Al Istiqomah",
-  "description": "Cek dan bayar tagihan siswa Yayasan Al Istiqomah Kuningan",
+  "name": "Cek & Bayar Tagihan - Kuningan Al Muqoddasah",
+  "short_name": "Al Muqoddasah",
+  "description": "Cek dan bayar tagihan siswa Kuningan Al Muqoddasah",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
@@ -21,13 +21,13 @@
   ],
   "icons": [
     {
-      "src": "/istiqomah.png",
+      "src": "/Muqoddasah.png",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/istiqomah.png",
+      "src": "/Muqoddasah.png",
       "sizes": "any",
       "type": "image/png",
       "purpose": "maskable"

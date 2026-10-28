@@ -111,6 +111,15 @@ html.dark .submit-btn{color:#052e16}
 .sf{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:11px 12px}
 .sf label{display:block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
 .sf p{font-size:14px;font-weight:650;color:var(--text);margin:0;word-break:break-word;line-height:1.35}
+.nova-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.nova-row p{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.02em;min-width:0}
+.btn-copy-nova{flex-shrink:0;min-width:34px;height:34px;padding:0 8px;border-radius:9px;border:1px solid var(--border2);background:var(--surface);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:background .15s,border .15s}
+.btn-copy-nova:hover{background:var(--accent-soft);border-color:var(--accent)}
+.btn-copy-nova span{font-size:11px;font-weight:700}
+.amt-debet{color:#b91c1c;font-weight:700}
+html.dark .amt-debet{color:#fca5a5}
+.amt-kredit{color:#15803d;font-weight:700}
+html.dark .amt-kredit{color:#86efac}
 .tbl-bar{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;flex-wrap:wrap;gap:.65rem}
 .tbl-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.35}
 .tbl-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -251,12 +260,38 @@ html.dark .ma-success{background:#052e16;border-color:#14532d;color:#86efac}
 .scroll-top{position:fixed;bottom:max(1.15rem,env(safe-area-inset-bottom));right:max(1rem,env(safe-area-inset-right));width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 20px rgba(19,38,26,.12);z-index:20}
 .scroll-top:hover{background:var(--surface2)}
 .empty-note{text-align:center;padding:1.5rem 1rem;color:var(--text3);font-size:13px}
+.guide-card{overflow:hidden}
+.guide-layout{display:grid;grid-template-columns:1fr;gap:1.1rem}
+.guide-preview{position:relative;display:block;width:100%;border:none;padding:0;border-radius:14px;overflow:hidden;cursor:pointer;background:var(--surface2);border:1px solid var(--border);aspect-ratio:16/11;text-align:left}
+.guide-preview img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .35s ease}
+.guide-preview:hover img{transform:scale(1.03)}
+.guide-preview-overlay{position:absolute;inset:auto 0 0 0;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:linear-gradient(transparent,rgba(12,22,16,.72));color:#fff;font-size:13px;font-weight:700}
+.guide-copy h2{margin:0 0 .4rem;font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.3}
+.guide-copy p{margin:0 0 .9rem;font-size:13px;color:var(--text2);line-height:1.55}
+.guide-tips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 1.05rem;padding:0;list-style:none}
+.guide-tips li{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:var(--accent-soft);border:1px solid var(--border);font-size:12px;font-weight:600;color:var(--text2)}
+.guide-tips li b{color:var(--accent);font-weight:700}
+.guide-actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn-guide{min-height:44px;padding:10px 16px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
+.btn-guide:hover{background:var(--accent-h)}
+html.dark .btn-guide{color:#052e16}
+.btn-guide-ghost{min-height:44px;padding:10px 16px;border-radius:12px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:background .15s}
+.btn-guide-ghost:hover{background:var(--surface2)}
+.guide-link{display:inline-flex;align-items:center;gap:6px;margin-top:.85rem;font-size:13px;font-weight:600;color:var(--accent);background:none;border:none;cursor:pointer;padding:0}
+.guide-link:hover{text-decoration:underline}
+.modal-box.panduan-modal{max-width:min(920px,100%);max-height:92vh}
+.panduan-body{padding:.85rem 1rem 1rem}
+.panduan-frame{border-radius:12px;border:1px solid var(--border);background:var(--surface2);overflow:auto;max-height:min(72vh,820px);-webkit-overflow-scrolling:touch}
+.panduan-frame img{display:block;width:100%;height:auto}
+.panduan-note{margin:.75rem 0 0;font-size:12px;color:var(--text3);line-height:1.5;text-align:center}
 @media(min-width:900px){
 .wrap{padding:1.5rem 1.5rem 2.75rem;padding-left:max(1.5rem,env(safe-area-inset-left));padding-right:max(1.5rem,env(safe-area-inset-right))}
 .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 1.15rem;align-items:end}
 .form-grid .field{margin-bottom:1rem}
 .student-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
 .card{padding:1.5rem 1.45rem}
+.guide-layout{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:1.35rem;align-items:center}
+.guide-preview{aspect-ratio:4/3}
 }
 @media(max-width:720px){
 .tbl-wrap{display:none}
@@ -311,8 +346,8 @@ h1{font-size:1.15rem}
       <div class="section-title">Informasi akun</div>
       <div class="form-grid">
         <div class="field">
-          <label>Nomor Induk Siswa <em>*</em></label>
-          <input type="text" name="no_cust" id="noCust" inputmode="numeric" autocomplete="username" placeholder="777723xxx" value="{{ old('no_cust', $va ?? '') }}" required>
+          <label>Nomor VA <em>*</em></label>
+          <input type="text" name="no_cust" id="noCust" inputmode="numeric" autocomplete="username" placeholder="777723xxxxxxxxxx" value="{{ old('no_cust', $va ?? '') }}" required>
         </div>
         <div class="field">
           <label>Password <em>*</em></label>
@@ -340,6 +375,10 @@ h1{font-size:1.15rem}
         Cek tagihan
       </button>
     </form>
+    <button type="button" class="guide-link" onclick="openPanduanModal()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      Lihat panduan pembayaran VA
+    </button>
 
     @if(session('error'))
     <script>
@@ -384,20 +423,119 @@ h1{font-size:1.15rem}
             <button type="button" class="btn-showall" id="btnMultiAkun" onclick="openMultiAkunModal()">Multi akun</button>
           </div>
         </div>
+        @php
+          $angkatanSiswa = $result['data']['angkatan'] ?? $result['data']['tahun_akademik'] ?? $result['data']['tahun_masuk'] ?? '-';
+          $kelompokSiswa = $result['data']['kelompok'] ?? $result['data']['jurusan'] ?? '-';
+          $novaSiswa = \App\Http\Controllers\TagihanController::formatNova(
+            $result['data']['no_cust'] ?? $result['data']['va_number'] ?? '-'
+          );
+        @endphp
         <div class="student-grid">
           <div class="sf"><label>Nama</label><p>{{ $result['data']['nama'] ?? '-' }}</p></div>
           <div class="sf"><label>Kelas</label><p>{{ $result['data']['kelas'] ?? '-' }}</p></div>
-          <div class="sf"><label>Angkatan</label><p>{{ ($academic_year ?? 'all') === 'all' ? 'Semua' : $academic_year }}</p></div>
+          <div class="sf"><label>Kelompok</label><p>{{ $kelompokSiswa }}</p></div>
+          <div class="sf"><label>Angkatan / Tahun masuk</label><p>{{ $angkatanSiswa }}</p></div>
           <div class="sf"><label>Saldo VA</label><p>Rp {{ number_format($result['data']['saldo'] ?? 0, 0, ',', '.') }}</p></div>
-          <div class="sf"><label>NOVA</label><p>{{ $result['data']['va_number'] ?? '-' }}</p></div>
+          <div class="sf">
+            <label>NOVA</label>
+            <div class="nova-row">
+              <p id="novaText">{{ $novaSiswa }}</p>
+              @if($novaSiswa !== '' && $novaSiswa !== '-')
+              <button type="button" class="btn-copy-nova" onclick="copyNova('novaText')" aria-label="Salin nomor VA">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <span>Salin</span>
+              </button>
+              @endif
+            </div>
+          </div>
           <div class="sf"><label>Jenjang</label><p>{{ $result['data']['jenjang'] ?? '-' }}</p></div>
         </div>
 
+        @php
+          $mutasiRows = $result['data']['mutasi'] ?? [];
+          $mutasiDebet = (int) ($result['data']['mutasi_total_debet'] ?? 0);
+          $mutasiKredit = (int) ($result['data']['mutasi_total_kredit'] ?? 0);
+        @endphp
+        <div class="divider"></div>
+        <div class="tbl-bar" style="align-items:flex-end">
+          <div>
+            <div class="tbl-title">Riwayat debet saldo</div>
+            <p class="tbl-info" style="margin-top:4px">Pantau pendebetan yang dilakukan siswa. Total debet <b class="amt-debet">Rp {{ number_format($mutasiDebet, 0, ',', '.') }}</b> · Kredit <b class="amt-kredit">Rp {{ number_format($mutasiKredit, 0, ',', '.') }}</b></p>
+          </div>
+          <div class="tbl-controls">
+            <select id="mutasiPerPage" onchange="changeMutasiPerPage()" aria-label="Jumlah data">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <button class="btn-showall" type="button" onclick="showAllMutasi()">Tampilkan semua</button>
+          </div>
+        </div>
+        <div id="mutasiInfo" class="tbl-info" style="margin-bottom:.75rem"></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Tanggal</th>
+                <th>Keterangan</th>
+                <th>Ref</th>
+                <th>Debet</th>
+                <th>Kredit</th>
+              </tr>
+            </thead>
+            <tbody id="mutasiTableBody">
+              @forelse($mutasiRows as $i => $row)
+              <tr data-index="{{ $i }}">
+                <td>{{ $i+1 }}</td>
+                <td>{{ !empty($row['trxdate']) ? \Carbon\Carbon::parse($row['trxdate'])->format('d M Y H:i') : '-' }}</td>
+                <td>{{ $row['keterangan'] ?: ($row['metode'] ?: '-') }}</td>
+                <td>{{ $row['noref'] ?: ($row['transno'] ?: '-') }}</td>
+                <td class="{{ (int)($row['debet'] ?? 0) > 0 ? 'amt-debet' : '' }}">{{ (int)($row['debet'] ?? 0) > 0 ? 'Rp '.number_format((int)$row['debet'], 0, ',', '.') : '-' }}</td>
+                <td class="{{ (int)($row['kredit'] ?? 0) > 0 ? 'amt-kredit' : '' }}">{{ (int)($row['kredit'] ?? 0) > 0 ? 'Rp '.number_format((int)$row['kredit'], 0, ',', '.') : '-' }}</td>
+              </tr>
+              @empty
+              <tr><td colspan="6" class="empty-note">Belum ada mutasi saldo</td></tr>
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+        <div class="card-list" id="mutasiCardList">
+          @forelse($mutasiRows as $i => $row)
+          <article class="bill-card" data-index="{{ $i }}">
+            <div class="bill-card-top">
+              <span class="badge {{ (int)($row['debet'] ?? 0) > 0 ? 'badge-unpaid' : 'badge-paid' }}">{{ (int)($row['debet'] ?? 0) > 0 ? 'Debet' : 'Kredit' }}</span>
+              <span class="bill-meta">{{ !empty($row['trxdate']) ? \Carbon\Carbon::parse($row['trxdate'])->format('d M Y') : '-' }}</span>
+            </div>
+            <h3>{{ $row['keterangan'] ?: ($row['metode'] ?: '-') }}</h3>
+            <p class="bill-amount {{ (int)($row['debet'] ?? 0) > 0 ? 'amt-debet' : 'amt-kredit' }}">
+              {{ (int)($row['debet'] ?? 0) > 0
+                ? 'Rp '.number_format((int)$row['debet'], 0, ',', '.')
+                : 'Rp '.number_format((int)($row['kredit'] ?? 0), 0, ',', '.') }}
+            </p>
+            <div class="bill-meta">
+              <span>{{ $row['metode'] ?: '-' }}</span>
+              <span>Ref {{ $row['noref'] ?: ($row['transno'] ?: '-') }}</span>
+            </div>
+          </article>
+          @empty
+          <div class="empty-note">Belum ada mutasi saldo</div>
+          @endforelse
+        </div>
+        <div id="mutasiPagination" class="pagination"></div>
+
         <div class="divider"></div>
 
-        <div class="tbl-bar">
-          <div class="tbl-title">Tagihan aktif — {{ ($academic_year ?? 'all') === 'all' ? 'Semua tahun akademik' : $academic_year }}</div>
+        <div class="tbl-bar" style="align-items:flex-end">
+          <div>
+            <div class="tbl-title" id="tagihanTitle">Tagihan aktif — {{ ($academic_year ?? 'all') === 'all' ? 'Semua tahun akademik' : $academic_year }}</div>
+            <p class="tbl-info" style="margin-top:4px">Filter berdasarkan tahun akademik / pelajaran</p>
+          </div>
           <div class="tbl-controls">
+            <select id="billYearFilter" aria-label="Filter tahun akademik" onchange="onBillYearChange(this)">
+              <option value="all" {{ ($academic_year ?? 'all') === 'all' ? 'selected' : '' }}>Semua tahun akademik</option>
+            </select>
             <select id="tagihanPerPage" onchange="changeTagihanPerPage()" aria-label="Jumlah data">
               <option value="10">10</option>
               <option value="25">25</option>
@@ -434,8 +572,9 @@ h1{font-size:1.15rem}
                 $sudahBayar = (int)($tagih['sudah_dibayar'] ?? 0);
                 $totalTagih = (int)($tagih['total_tagihan'] ?? 0);
                 $sisaTagih = (int)($tagih['sisa_tagihan'] ?? max(0, $totalTagih - $sudahBayar));
+                $tahunTagih = trim((string) ($tagih['tahun_akademik_tagihan'] ?? $tagih['BTA'] ?? ''));
               @endphp
-              <tr data-index="{{ $i }}">
+              <tr data-index="{{ $i }}" data-tahun="{{ $tahunTagih }}">
                 @unless($viewOnly)
                 <td>
                   <input type="checkbox" class="chk tagihan-checkbox" value="{{ $tagih['AA'] ?? '' }}" data-index="{{ $i }}" {{ $sisaTagih <= 0 ? 'disabled' : '' }} aria-label="Pilih tagihan">
@@ -478,8 +617,9 @@ h1{font-size:1.15rem}
             $sudahBayar = (int)($tagih['sudah_dibayar'] ?? 0);
             $totalTagih = (int)($tagih['total_tagihan'] ?? 0);
             $sisaTagih = (int)($tagih['sisa_tagihan'] ?? max(0, $totalTagih - $sudahBayar));
+            $tahunTagih = trim((string) ($tagih['tahun_akademik_tagihan'] ?? $tagih['BTA'] ?? ''));
           @endphp
-          <article class="bill-card" data-index="{{ $i }}">
+          <article class="bill-card" data-index="{{ $i }}" data-tahun="{{ $tahunTagih }}">
             <div class="bill-card-top">
               @if($viewOnly)
                 <span class="badge badge-unpaid">Belum lunas</span>
@@ -533,7 +673,7 @@ h1{font-size:1.15rem}
         <div class="divider"></div>
 
         <div class="tbl-bar">
-          <div class="tbl-title">Tagihan lunas — {{ ($academic_year ?? 'all') === 'all' ? 'Semua tahun akademik' : $academic_year }}</div>
+          <div class="tbl-title" id="lunasTitle">Tagihan lunas — {{ ($academic_year ?? 'all') === 'all' ? 'Semua tahun akademik' : $academic_year }}</div>
           <div class="tbl-controls">
             <select id="lunasPerPage" onchange="changeLunasPerPage()" aria-label="Jumlah data">
               <option value="10">10</option>
@@ -560,7 +700,8 @@ h1{font-size:1.15rem}
             </thead>
             <tbody id="lunasTableBody">
               @forelse($result['data']['tagihan_lunas'] ?? [] as $i => $tagih)
-              <tr data-index="{{ $i }}">
+              @php $tahunTagih = trim((string) ($tagih['tahun_akademik_tagihan'] ?? $tagih['BTA'] ?? '')); @endphp
+              <tr data-index="{{ $i }}" data-tahun="{{ $tahunTagih }}">
                 <td>{{ $i+1 }}</td>
                 <td>{{ $tagih['FURUTAN'] ?? '-' }}</td>
                 <td>{{ ucwords(str_replace('_', ' ', strtolower($tagih['nama_tagihan']))) }}</td>
@@ -577,7 +718,8 @@ h1{font-size:1.15rem}
         </div>
         <div class="card-list" id="lunasCardList">
           @forelse($result['data']['tagihan_lunas'] ?? [] as $i => $tagih)
-          <article class="bill-card" data-index="{{ $i }}">
+          @php $tahunTagih = trim((string) ($tagih['tahun_akademik_tagihan'] ?? $tagih['BTA'] ?? '')); @endphp
+          <article class="bill-card" data-index="{{ $i }}" data-tahun="{{ $tahunTagih }}">
             <div class="bill-card-top">
               <span class="badge badge-paid">Lunas</span>
               <button type="button" class="btn-detail" onclick="showLunasDetail({{ $i }})">Detail</button>
@@ -603,6 +745,38 @@ h1{font-size:1.15rem}
       </div>
     @endif
   @endif
+
+  <div class="card guide-card" id="panduanCard">
+    <div class="section-title">Panduan pembayaran</div>
+    <div class="guide-layout">
+      <button type="button" class="guide-preview" onclick="openPanduanModal()" aria-label="Perbesar panduan pembayaran">
+        <img src="{{ asset('Gambar_Panduan_Bayar.jpeg') }}" alt="Panduan pembayaran Virtual Account Kuningan Al Muqoddasah" loading="lazy" decoding="async">
+        <span class="guide-preview-overlay">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+          Perbesar panduan
+        </span>
+      </button>
+      <div class="guide-copy">
+        <h2>Cara bayar Virtual Account</h2>
+        <p>Panduan pembayaran tagihan Kuningan Al Muqoddasah via mobile banking, ATM bank lain, atau e-wallet.</p>
+        <ul class="guide-tips">
+          <li>Bank tujuan: <b>Muamalat</b></li>
+          <li>Prefix VA: <b>777723</b></li>
+          <li>Tambah biaya: <b>Rp 2.000</b></li>
+        </ul>
+        <div class="guide-actions">
+          <button type="button" class="btn-guide" onclick="openPanduanModal()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            Lihat panduan
+          </button>
+          <a class="btn-guide-ghost" href="{{ asset('Gambar_Panduan_Bayar.jpeg') }}" target="_blank" rel="noopener">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            Buka tab baru
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="footer">© {{ date('Y') }} Kuningan Al Muqoddasah. All rights reserved.</div>
 </div>
@@ -668,6 +842,30 @@ h1{font-size:1.15rem}
   </div>
 </div>
 
+<div id="panduanModal" class="modal-bg" onclick="if(event.target===this)closePanduanModal()">
+  <div class="modal-box panduan-modal" role="dialog" aria-modal="true" aria-labelledby="panduanModalTitle">
+    <div class="modal-head">
+      <h3 id="panduanModalTitle">Panduan pembayaran VA</h3>
+      <button class="modal-x" onclick="closePanduanModal()" aria-label="Tutup" type="button">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="panduan-body">
+      <div class="panduan-frame">
+        <img src="{{ asset('Gambar_Panduan_Bayar.jpeg') }}" alt="Panduan pembayaran Virtual Account Kuningan Al Muqoddasah" loading="lazy" decoding="async">
+      </div>
+      <p class="panduan-note">Pastikan menambah biaya admin <b>Rp 2.000</b> pada nominal tagihan. VA Open Payment: prefix <b>777723</b>.</p>
+    </div>
+    <div class="modal-foot" style="display:flex;flex-wrap:wrap;gap:8px">
+      <a class="btn-guide" style="flex:1;text-decoration:none" href="{{ asset('Gambar_Panduan_Bayar.jpeg') }}" target="_blank" rel="noopener">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        Buka penuh
+      </a>
+      <button class="btn-close-full" style="flex:1" onclick="closePanduanModal()" type="button">Tutup</button>
+    </div>
+  </div>
+</div>
+
 @if(isset($result) && !empty($result['status']))
 @php
   $activeNoCust = \App\Http\Controllers\TagihanController::normalizeVa($result['data']['no_cust'] ?? ($va ?? ''));
@@ -724,8 +922,8 @@ h1{font-size:1.15rem}
       <form id="multiAkunForm" onsubmit="return submitTambahMultiAkun(event)">
         @csrf
         <div class="field">
-          <label>Nomor Induk Siswa <em>*</em></label>
-          <input type="text" name="no_cust" id="maNoCust" placeholder="777723xxx" required autocomplete="username">
+          <label>Nomor VA <em>*</em></label>
+          <input type="text" name="no_cust" id="maNoCust" placeholder="777723xxxxxxxxxx" required autocomplete="username">
         </div>
         <div class="field">
           <label>Password <em>*</em></label>
@@ -771,6 +969,7 @@ let turnstileEnabled = @json((bool) config('services.turnstile.enabled'));
 let turnstileToken = turnstileEnabled ? null : 'bypass';
 let tagihanPage = 1, tagihanPerPageVal = 10, tagihanAll = false;
 let lunasPage = 1, lunasPerPageVal = 10, lunasAll = false;
+let mutasiPage = 1, mutasiPerPageVal = 10, mutasiAll = false;
 
 const ICON_MOON = '<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
 const ICON_SUN = '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
@@ -846,17 +1045,84 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const s = document.getElementById('academic_year');
-  if (s && !s.value) s.value = 'all';
+  fillYearSelects();
   initTagihanPagination();
   initLunasPagination();
+  initMutasiPagination();
+
+  const billForm = document.getElementById('billForm');
+  if (billForm) {
+    billForm.addEventListener('submit', () => {
+      const input = document.getElementById('noCust');
+      if (input) input.value = expandVaOrNis(input.value);
+    });
+  }
 });
+
+const preselectedYear = @json($academic_year ?? 'all');
+let selectedBillYear = preselectedYear || 'all';
+
+function collectBillYears() {
+  const years = new Set();
+  document.querySelectorAll('#tagihanTableBody [data-tahun], #lunasTableBody [data-tahun]').forEach(el => {
+    const y = String(el.getAttribute('data-tahun') || '').trim();
+    if (y && y !== '-' && y.toLowerCase() !== 'all') years.add(y);
+  });
+  return Array.from(years).sort().reverse();
+}
+
+function fillYearSelects() {
+  const years = collectBillYears();
+  const s = document.getElementById('billYearFilter');
+  if (!s) return;
+  const current = s.value || 'all';
+  s.innerHTML = '';
+  const def = document.createElement('option');
+  def.value = 'all';
+  def.textContent = 'Semua tahun akademik';
+  s.appendChild(def);
+  years.forEach(y => {
+    const o = document.createElement('option');
+    o.value = y;
+    o.textContent = y;
+    s.appendChild(o);
+  });
+  const match = Array.from(s.options).find(o => o.value === current);
+  s.value = match ? current : 'all';
+  selectedBillYear = s.value || 'all';
+  applyBillYearFilter(false);
+}
+
+function onBillYearChange(sel) {
+  selectedBillYear = sel.value || 'all';
+  applyBillYearFilter(true);
+}
+
+function applyBillYearFilter(resetPage) {
+  if (resetPage) { tagihanPage = 1; lunasPage = 1; }
+  const label = (!selectedBillYear || selectedBillYear === 'all') ? 'Semua tahun akademik' : selectedBillYear;
+  const t1 = document.getElementById('tagihanTitle');
+  const t2 = document.getElementById('lunasTitle');
+  if (t1) t1.textContent = 'Tagihan aktif — ' + label;
+  if (t2) t2.textContent = 'Tagihan lunas — ' + label;
+  initTagihanPagination();
+  initLunasPagination();
+}
+
+function yearOf(el) {
+  return String(el.getAttribute('data-tahun') || '').trim();
+}
 
 window.onload = initTurnstile;
 
 function getRows(id) {
   const el = document.getElementById(id);
-  return el ? Array.from(el.querySelectorAll('tr[data-index]')) : [];
+  if (!el) return [];
+  const yearFilter = (id === 'tagihanTableBody' || id === 'lunasTableBody');
+  return Array.from(el.querySelectorAll('tr[data-index]')).filter(r => {
+    if (!yearFilter || !selectedBillYear || selectedBillYear === 'all') return true;
+    return yearOf(r) === String(selectedBillYear).trim();
+  });
 }
 
 function syncCards(tableBodyId, rows) {
@@ -864,8 +1130,10 @@ function syncCards(tableBodyId, rows) {
   if (!cardList) return;
   const vis = {};
   rows.forEach(r => { vis[r.dataset.index] = r.style.display; });
+  const yearFilter = (tableBodyId === 'tagihanTableBody' || tableBodyId === 'lunasTableBody');
   cardList.querySelectorAll('[data-index]').forEach(c => {
-    c.style.display = Object.prototype.hasOwnProperty.call(vis, c.dataset.index) ? vis[c.dataset.index] : 'none';
+    const matchYear = !yearFilter || !selectedBillYear || selectedBillYear === 'all' || yearOf(c) === String(selectedBillYear).trim();
+    c.style.display = matchYear && Object.prototype.hasOwnProperty.call(vis, c.dataset.index) ? vis[c.dataset.index] : 'none';
   });
 }
 
@@ -903,14 +1171,47 @@ function renderPagination(id, totalPages, totalRows, showAll, getCurrent, goTo) 
   el.innerHTML = h;
 }
 
+function hideNonMatching(tableBodyId) {
+  const yearFilter = (tableBodyId === 'tagihanTableBody' || tableBodyId === 'lunasTableBody');
+  if (!yearFilter) return;
+  const el = document.getElementById(tableBodyId);
+  if (el) {
+    el.querySelectorAll('tr[data-index]').forEach(r => {
+      if (selectedBillYear && selectedBillYear !== 'all' && yearOf(r) !== String(selectedBillYear).trim()) {
+        r.style.display = 'none';
+      }
+    });
+  }
+  const cardList = document.getElementById(tableBodyId.replace('TableBody', 'CardList'));
+  if (cardList) {
+    cardList.querySelectorAll('[data-index]').forEach(c => {
+      if (selectedBillYear && selectedBillYear !== 'all' && yearOf(c) !== String(selectedBillYear).trim()) {
+        c.style.display = 'none';
+      }
+    });
+  }
+}
+
 function initTagihanPagination() {
+  hideNonMatching('tagihanTableBody');
   const rows = getRows('tagihanTableBody');
   if (rows.length) paginateRows(rows, tagihanPage, tagihanPerPageVal, tagihanAll, 'tagihanInfo', (tp, tr) => renderPagination('tagihanPagination', tp, tr, tagihanAll, () => tagihanPage, 'goToTagihanPage'), 'tagihanTableBody');
+  else {
+    const inf = document.getElementById('tagihanInfo');
+    if (inf) inf.textContent = 'Menampilkan 0 data';
+    renderPagination('tagihanPagination', 0, 0, true, () => 1, 'goToTagihanPage');
+  }
 }
 
 function initLunasPagination() {
+  hideNonMatching('lunasTableBody');
   const rows = getRows('lunasTableBody');
   if (rows.length) paginateRows(rows, lunasPage, lunasPerPageVal, lunasAll, 'lunasInfo', (tp, tr) => renderPagination('lunasPagination', tp, tr, lunasAll, () => lunasPage, 'goToLunasPage'), 'lunasTableBody');
+  else {
+    const inf = document.getElementById('lunasInfo');
+    if (inf) inf.textContent = 'Menampilkan 0 data';
+    renderPagination('lunasPagination', 0, 0, true, () => 1, 'goToLunasPage');
+  }
 }
 
 function goToTagihanPage(p) { tagihanPage = p; paginateRows(getRows('tagihanTableBody'), tagihanPage, tagihanPerPageVal, tagihanAll, 'tagihanInfo', (tp, tr) => renderPagination('tagihanPagination', tp, tr, tagihanAll, () => tagihanPage, 'goToTagihanPage'), 'tagihanTableBody'); }
@@ -920,6 +1221,13 @@ function changeTagihanPerPage() { tagihanPerPageVal = parseInt(document.getEleme
 function changeLunasPerPage() { lunasPerPageVal = parseInt(document.getElementById('lunasPerPage').value); lunasPage = 1; lunasAll = false; initLunasPagination(); }
 function showAllTagihan() { tagihanAll = true; initTagihanPagination(); }
 function showAllLunas() { lunasAll = true; initLunasPagination(); }
+function initMutasiPagination() {
+  const rows = getRows('mutasiTableBody');
+  if (rows.length) paginateRows(rows, mutasiPage, mutasiPerPageVal, mutasiAll, 'mutasiInfo', (tp, tr) => renderPagination('mutasiPagination', tp, tr, mutasiAll, () => mutasiPage, 'goToMutasiPage'), 'mutasiTableBody');
+}
+function goToMutasiPage(p) { mutasiPage = p; paginateRows(getRows('mutasiTableBody'), mutasiPage, mutasiPerPageVal, mutasiAll, 'mutasiInfo', (tp, tr) => renderPagination('mutasiPagination', tp, tr, mutasiAll, () => mutasiPage, 'goToMutasiPage'), 'mutasiTableBody'); }
+function changeMutasiPerPage() { mutasiPerPageVal = parseInt(document.getElementById('mutasiPerPage').value); mutasiPage = 1; mutasiAll = false; initMutasiPagination(); }
+function showAllMutasi() { mutasiAll = true; initMutasiPagination(); }
 
 function formatPeriode(value) {
   const raw = String(value || '').trim();
@@ -1014,6 +1322,7 @@ window.addEventListener('click', e => {
   if (e.target.id === 'paymentModal') closePaymentModal();
   if (e.target.id === 'multiAkunModal') closeMultiAkunModal();
   if (e.target.id === 'installModal') closeInstallModal();
+  if (e.target.id === 'panduanModal') closePanduanModal();
 });
 
 document.getElementById('billForm').addEventListener('submit', e => {
@@ -1031,6 +1340,8 @@ const siswaBayar = {
   va_number: @json($result['data']['va_number'] ?? ''),
   tahun_akademik: @json($academic_year ?? ''),
   jenjang: @json($result['data']['jenjang'] ?? ''),
+  kelompok: @json($result['data']['kelompok'] ?? $result['data']['jurusan'] ?? ''),
+  angkatan: @json($result['data']['angkatan'] ?? $result['data']['tahun_akademik'] ?? ''),
   saldo: @json($result['data']['saldo'] ?? 0)
 };
 const viewOnly = @json($viewOnly);
@@ -1223,7 +1534,9 @@ async function submitTambahMultiAkun(e) {
   e.preventDefault();
   clearMaMessages();
   const btn = document.getElementById('maSubmitBtn');
-  const noCust = document.getElementById('maNoCust')?.value?.trim();
+  const noCust = expandVaOrNis(document.getElementById('maNoCust')?.value?.trim());
+  const maInput = document.getElementById('maNoCust');
+  if (maInput && noCust) maInput.value = noCust;
   const password = document.getElementById('maPassword')?.value || '';
   const academicYear = 'all';
   if (!noCust || !password) {
@@ -1290,12 +1603,38 @@ function formatRp(n) {
   return 'Rp ' + (parseInt(n, 10) || 0).toLocaleString('id-ID');
 }
 
-function formatNovaDisplay(va) {
-  let n = String(va ?? '').replace(/\s+/g, '');
-  if (!n || n === '-') return '-';
-  n = n.replace(/^(777723|797777|96240|797783|757777|797766|751000)/, '');
+function expandVaOrNis(value) {
+  let n = String(value ?? '').replace(/\D+/g, '');
+  if (!n) return '';
+  if (n.startsWith('777723') && n.length >= 16) return n;
+  const prefixes = ['777723', '797777', '757777', '797766', '751000', '797783', '96240'];
+  for (const p of prefixes) {
+    if (n.startsWith(p) && n.length > p.length) {
+      n = n.slice(p.length);
+      break;
+    }
+  }
   n = n.replace(/^0+/, '') || n;
-  return n ? ('777723' + n) : '-';
+  return '777723' + n.padStart(10, '0');
+}
+
+function formatNovaDisplay(va) {
+  let n = String(va ?? '').replace(/\D+/g, '');
+  if (!n) return '-';
+  const prefixes = ['777723', '797777', '757777', '797766', '751000', '797783', '96240'];
+  for (let i = 0; i < 4; i++) {
+    let hit = false;
+    for (const p of prefixes) {
+      if (n.startsWith(p) && n.length > p.length) {
+        n = n.slice(p.length);
+        hit = true;
+        break;
+      }
+    }
+    if (!hit) break;
+  }
+  n = n.replace(/^0+/, '') || n;
+  return n ? ('777723' + n.padStart(10, '0')) : '-';
 }
 
 function esc(s) {
@@ -1499,7 +1838,7 @@ function showPaymentModal() {
     <div class="pay-info">
       <div><span class="pi-lbl">Nama</span><div class="pi-val">${esc(siswaBayar.nama) || '-'}</div></div>
       <div><span class="pi-lbl">Kelas</span><div class="pi-val">${esc(siswaBayar.kelas) || '-'}</div></div>
-      <div><span class="pi-lbl">NIS</span><div class="pi-val">${esc(siswaBayar.no_cust || siswaBayar.num2nd) || '-'}</div></div>
+      <div><span class="pi-lbl">Kelompok</span><div class="pi-val">${esc(siswaBayar.kelompok) || '-'}</div></div>
       <div><span class="pi-lbl">Nomor VA</span><div class="pi-val">${esc(formatNovaDisplay(siswaBayar.va_number || siswaBayar.no_cust)) || '-'}</div></div>
     </div>
     <div class="pay-tbl-wrap">
@@ -1633,15 +1972,19 @@ async function prosesPembayaran() {
   }
 }
 
-function copyVa() {
-  const va = (document.getElementById('vaNumberText')?.textContent || '').trim();
-  if (!va) return;
+function copyNova(elId) {
+  const va = (document.getElementById(elId || 'novaText')?.textContent || '').replace(/\s+/g, '');
+  if (!va || va === '-') return;
   const done = () => Swal.fire({ icon: 'success', title: 'Tersalin', text: 'Nomor VA sudah disalin.', timer: 1400, showConfirmButton: false, ...swalTheme() });
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(va).then(done).catch(() => fallbackCopy(va, done));
   } else {
     fallbackCopy(va, done);
   }
+}
+
+function copyVa() {
+  copyNova('vaNumberText');
 }
 
 function fallbackCopy(va, done) {
@@ -1716,6 +2059,20 @@ function closeInstallModal() {
   if (!modal) return;
   modal.classList.remove('open');
   document.body.style.overflow = '';
+}
+
+function openPanduanModal() {
+  const modal = document.getElementById('panduanModal');
+  if (!modal) return;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePanduanModal() {
+  const modal = document.getElementById('panduanModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  if (!document.querySelector('.modal-bg.open')) document.body.style.overflow = '';
 }
 
 function syncInstallModalState() {

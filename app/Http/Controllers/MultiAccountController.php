@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\MultiAccountService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class MultiAccountController extends Controller
 {
@@ -27,8 +25,20 @@ class MultiAccountController extends Controller
         }
 
         if (!empty($result['data'])) {
-            $nocust = $result['data']['no_cust'] ?? $result['data']['va_number'] ?? $fallback;
+            $nocust = TagihanController::normalizeVa(
+                $result['data']['no_cust']
+                    ?? $result['data']['num2nd']
+                    ?? $result['data']['va_number']
+                    ?? $fallback
+            );
+            $result['data']['no_cust'] = $nocust !== '' ? $nocust : ($result['data']['no_cust'] ?? $fallback);
             $result['data']['va_number'] = TagihanController::formatNova($nocust);
+            $result['data']['kelompok'] = $result['data']['kelompok']
+                ?? $result['data']['jurusan']
+                ?? '-';
+            $result['data']['angkatan'] = $result['data']['angkatan']
+                ?? $result['data']['tahun_akademik']
+                ?? '-';
             $result = TagihanController::normalizeBillAmounts($result);
         }
 
@@ -37,18 +47,11 @@ class MultiAccountController extends Controller
 
     private function fetchTagihan(string $va, string $academicYear): array
     {
-        $payload = [
-            'va' => TagihanController::normalizeVa($va),
+        $json = TagihanController::postWsWithVaCandidates('cek-tagihan', [
             'tahun_akademik' => $academicYear,
-        ];
+        ], $va);
 
-        $response = Http::timeout(30)
-            ->withoutVerifying()
-            ->acceptJson()
-            ->asJson()
-            ->post($this->wsUrl('cek-tagihan'), $payload);
-
-        return $this->withNova($response->json(), $va);
+        return $this->withNova($json, $va);
     }
 
     private function requireActiveSession(): ?array

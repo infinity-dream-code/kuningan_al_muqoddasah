@@ -386,7 +386,7 @@ class Tagihan
 
         $custid = $siswa['id'];
         $lunasItems = $this->attachLunasDetails($custid, $lunasItems, $num2nd);
-        $mutasi = $this->attachMutasi($custid);
+        $mutasi = $this->attachMutasi($custid, $num2nd);
 
         $siswa['tahun_dipilih'] = $tahun_akademik ?: 'Semua Tahun Akademik';
         $siswa['tagihan'] = $tagihanAktif;
@@ -660,31 +660,78 @@ class Tagihan
         return [];
     }
 
-    private function attachMutasi($custid)
+    public function getMutasiByVa($va_number)
     {
-        $rows = $this->safeFetch(
-            "SELECT t.TRXDATE, t.METODE, t.DEBET, t.KREDIT, t.NOREFF, t.TRANSNO, t.BILLTARGET
-             FROM sccttran t
-             WHERE t.CUSTID = ?
-             ORDER BY t.TRXDATE DESC
-             LIMIT 200",
-            [$custid]
-        );
+        $siswa = $this->getSiswaByVa($va_number);
+        if (!$siswa) {
+            return null;
+        }
+
+        $mutasi = $this->attachMutasi($siswa['id'] ?? null, $siswa['no_cust'] ?? $va_number);
+        $siswa['mutasi'] = $mutasi['rows'];
+        $siswa['rows'] = $mutasi['rows'];
+        $siswa['mutasi_total_debet'] = $mutasi['total_debet'];
+        $siswa['mutasi_total_kredit'] = $mutasi['total_kredit'];
+        $siswa['total_debet'] = $mutasi['total_debet'];
+        $siswa['total_kredit'] = $mutasi['total_kredit'];
+
+        return $siswa;
+    }
+
+    private function attachMutasi($custid, $nocust = null)
+    {
+        $trimmed = ltrim((string) $nocust, '0');
+        if ($trimmed === '') {
+            $trimmed = (string) $nocust;
+        }
+        $padded = $trimmed !== '' ? str_pad($trimmed, 10, '0', STR_PAD_LEFT) : '';
+
+        $selectMin = "SELECT t.TRXDATE, t.METODE, t.DEBET, t.KREDIT, t.NOREFF, t.TRANSNO FROM sccttran t";
+        $selectFull = "SELECT t.TRXDATE, t.METODE, t.DEBET, t.KREDIT, t.NOREFF, t.TRANSNO, t.BILLTARGET FROM sccttran t";
+        $order = " ORDER BY t.TRXDATE DESC LIMIT 200";
+
+        $attempts = [];
+        if ($custid !== null && $custid !== '') {
+            $attempts[] = ['sql' => $selectFull.' WHERE t.CUSTID = ?'.$order, 'params' => [$custid]];
+            $attempts[] = ['sql' => $selectMin.' WHERE t.CUSTID = ?'.$order, 'params' => [$custid]];
+            $attempts[] = ['sql' => $selectMin.' WHERE CAST(t.CUSTID AS UNSIGNED) = ?'.$order, 'params' => [(int) $custid]];
+        }
+        foreach (array_unique(array_filter([$nocust, $trimmed, $padded])) as $n) {
+            $attempts[] = ['sql' => $selectFull.' WHERE TRIM(t.NOCUST) = ?'.$order, 'params' => [$n]];
+            $attempts[] = ['sql' => $selectMin.' WHERE TRIM(t.NOCUST) = ?'.$order, 'params' => [$n]];
+            $attempts[] = ['sql' => $selectMin.' WHERE TRIM(LEADING \'0\' FROM TRIM(t.NOCUST)) = ?'.$order, 'params' => [$trimmed]];
+        }
+        if ($custid !== null && $custid !== '') {
+            $attempts[] = [
+                'sql' => "SELECT CREATED_AT AS TRXDATE, KETERANGAN AS METODE, AMOUNT AS DEBET, 0 AS KREDIT, TRANSNO AS NOREFF, TRANSNO
+                    FROM scctcashout WHERE CUSTID = ? ORDER BY CREATED_AT DESC LIMIT 200",
+                'params' => [$custid],
+            ];
+        }
+
+        $rows = [];
+        foreach ($attempts as $attempt) {
+            $rows = $this->safeFetch($attempt['sql'], $attempt['params']);
+            if ($rows) {
+                break;
+            }
+        }
 
         $mutasi = [];
         $totalDebet = 0;
         $totalKredit = 0;
         foreach ($rows as $row) {
             $row = array_change_key_case($row, CASE_UPPER);
-            $debet = (int) ($row['DEBET'] ?? 0);
+            $debet = (int) ($row['DEBET'] ?? $row['AMOUNT'] ?? 0);
             $kredit = (int) ($row['KREDIT'] ?? 0);
             $totalDebet += $debet;
             $totalKredit += $kredit;
+            $keterangan = $row['BILLTARGET'] ?? $row['KETERANGAN'] ?? $row['HELPDESK'] ?? $row['METODE'] ?? '-';
             $mutasi[] = [
-                'trxdate' => $row['TRXDATE'] ?? null,
+                'trxdate' => $row['TRXDATE'] ?? $row['CREATED_AT'] ?? $row['TANGGAL'] ?? null,
                 'metode' => $row['METODE'] ?? '',
-                'keterangan' => $row['BILLTARGET'] ?? ($row['METODE'] ?? ''),
-                'noref' => $row['NOREFF'] ?? '',
+                'keterangan' => $keterangan,
+                'noref' => $row['NOREFF'] ?? $row['NOREFF'] ?? '',
                 'transno' => $row['TRANSNO'] ?? '',
                 'debet' => $debet,
                 'kredit' => $kredit,

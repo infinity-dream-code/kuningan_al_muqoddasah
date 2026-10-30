@@ -274,6 +274,14 @@ class TagihanController extends Controller
     {
         $multiAccounts = collect();
         try {
+            session([
+                'tagihan.siswa' => [
+                    'no_cust' => self::normalizeVa($result['data']['no_cust'] ?? $vaDisplay),
+                    'nama' => $result['data']['nama'] ?? null,
+                    'kelas' => $result['data']['kelas'] ?? null,
+                    'jenjang' => $result['data']['jenjang'] ?? null,
+                ],
+            ]);
             MultiAccountService::syncMemberAfterLogin(
                 $result['data'],
                 $vaDisplay,
@@ -327,9 +335,140 @@ class TagihanController extends Controller
                 ?? $result['data']['DESC04']
                 ?? '-';
             $result = self::normalizeBillAmounts($result);
+            $result = self::ensureMutasi($result, $nocust);
         }
 
         return $result;
+    }
+
+    public static function ensureMutasi(array $result, $vaFallback = null): array
+    {
+        $data = $result['data'] ?? [];
+        $rows = $data['mutasi'] ?? $data['mutasi_saldo'] ?? $data['debet'] ?? [];
+        if (is_array($rows) && $rows !== []) {
+            $result['data']['mutasi'] = array_values($rows);
+            $result['data']['mutasi_total_debet'] = (int) ($data['mutasi_total_debet'] ?? self::sumMutasi($rows, 'debet'));
+            $result['data']['mutasi_total_kredit'] = (int) ($data['mutasi_total_kredit'] ?? self::sumMutasi($rows, 'kredit'));
+
+            return $result;
+        }
+
+        $va = $data['no_cust'] ?? $data['num2nd'] ?? $data['va_number'] ?? $vaFallback;
+        $custid = $data['id'] ?? $data['CUSTID'] ?? $data['custid'] ?? null;
+        $fetched = self::fetchMutasiFromWs($va, $custid);
+        if (! empty($fetched['rows'])) {
+            $result['data']['mutasi'] = $fetched['rows'];
+            $result['data']['mutasi_total_debet'] = (int) $fetched['total_debet'];
+            $result['data']['mutasi_total_kredit'] = (int) $fetched['total_kredit'];
+        } else {
+            $result['data']['mutasi'] = [];
+            $result['data']['mutasi_total_debet'] = 0;
+            $result['data']['mutasi_total_kredit'] = 0;
+        }
+
+        return $result;
+    }
+
+    private static function sumMutasi(array $rows, string $field): int
+    {
+        $total = 0;
+        foreach ($rows as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+            $total += (int) ($row[$field] ?? $row[strtoupper($field)] ?? 0);
+        }
+
+        return $total;
+    }
+
+    public static function fetchMutasiFromWs($va, $custid = null): array
+    {
+        $empty = ['rows' => [], 'total_debet' => 0, 'total_kredit' => 0];
+        $tryVas = array_values(array_unique(array_filter([
+            self::formatNova((string) $va),
+            self::normalizeVa((string) $va),
+            preg_replace('/\D+/', '', (string) $va),
+        ], fn ($v) => $v !== '' && $v !== '-')));
+
+        $base = rtrim((string) config('services.tagihan_ws.url'), '?&');
+        $urls = [];
+        $alt = preg_replace('/index\.php$/i', 'mutasi-saldo.php', $base);
+        if (is_string($alt) && $alt !== $base) {
+            $urls[] = $alt;
+        }
+        $urls[] = $base.(str_contains($base, '?') ? '&' : '?').'path=mutasi-saldo';
+
+        foreach ($urls as $url) {
+            foreach ($tryVas as $candidate) {
+                try {
+                    $response = Http::timeout(20)
+                        ->withoutVerifying()
+                        ->acceptJson()
+                        ->asJson()
+                        ->post($url, [
+                            'va' => $candidate,
+                            'custid' => $custid,
+                            'nocust' => $candidate,
+                        ]);
+                    $parsed = self::parseMutasiResponse($response->json());
+                    if ($parsed['rows']) {
+                        return $parsed;
+                    }
+                    $message = (string) (($response->json()['message'] ?? ''));
+                    if (stripos($message, 'Endpoint tidak ditemukan') !== false || $response->status() === 404) {
+                        break;
+                    }
+                } catch (\Throwable $e) {
+                    Log::warning('fetch mutasi failed', [
+                        'url' => $url,
+                        'error' => $e->getMessage(),
+                    ]);
+                    break;
+                }
+            }
+        }
+
+        return $empty;
+    }
+
+    private static function parseMutasiResponse($json): array
+    {
+        $empty = ['rows' => [], 'total_debet' => 0, 'total_kredit' => 0];
+        if (! is_array($json)) {
+            return $empty;
+        }
+
+        $data = is_array($json['data'] ?? null) ? $json['data'] : $json;
+        $rows = $data['mutasi'] ?? $data['rows'] ?? $data['debet'] ?? [];
+        if (! is_array($rows) || $rows === []) {
+            return $empty;
+        }
+
+        $normalized = [];
+        foreach ($rows as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+            $row = array_change_key_case($row, CASE_LOWER);
+            $debet = (int) ($row['debet'] ?? 0);
+            $kredit = (int) ($row['kredit'] ?? 0);
+            $normalized[] = [
+                'trxdate' => $row['trxdate'] ?? $row['tanggal'] ?? $row['created_at'] ?? null,
+                'metode' => $row['metode'] ?? '',
+                'keterangan' => $row['keterangan'] ?? $row['billtarget'] ?? ($row['metode'] ?? ''),
+                'noref' => $row['noref'] ?? $row['noreff'] ?? '',
+                'transno' => $row['transno'] ?? '',
+                'debet' => $debet,
+                'kredit' => $kredit,
+            ];
+        }
+
+        return [
+            'rows' => $normalized,
+            'total_debet' => (int) ($data['mutasi_total_debet'] ?? $data['total_debet'] ?? self::sumMutasi($normalized, 'debet')),
+            'total_kredit' => (int) ($data['mutasi_total_kredit'] ?? $data['total_kredit'] ?? self::sumMutasi($normalized, 'kredit')),
+        ];
     }
 
     private function extractVa($result, $fallback = null)

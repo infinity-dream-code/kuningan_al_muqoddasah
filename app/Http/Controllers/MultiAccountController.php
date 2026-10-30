@@ -40,6 +40,7 @@ class MultiAccountController extends Controller
                 ?? $result['data']['tahun_akademik']
                 ?? '-';
             $result = TagihanController::normalizeBillAmounts($result);
+            $result = TagihanController::ensureMutasi($result, $nocust);
         }
 
         return $result;
